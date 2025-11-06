@@ -24,8 +24,8 @@ export class LabelsController {
    * @throws BadRequestException if the label name is not unique
    * @throws BadRequestException if label name is not provided
    * @throws BadRequestException if color is not provided or is not hexadecimal
-  */
-   
+   */
+
   @Post('/label')
   async createLabel(@Body() labelDto: CreateLabelDTO): Promise<Label> {
     return this.labelsService.createLabel(labelDto);
@@ -33,8 +33,8 @@ export class LabelsController {
 
   /** Gets all labels.
    * @returns An array of all labels.
-  */
-   
+   */
+
   @Get()
   async getAllLabels(): Promise<Label[]> {
     return this.labelsService.getAllLabels();
@@ -44,8 +44,8 @@ export class LabelsController {
    * @param labelId - The ID of the label to delete.
    * @returns A boolean indicating success and a message.
    * @throws BadRequestException if the label with the given ID does not exist.
-  */
-   
+   */
+
   @Delete('/:labelId')
   async deleteLabel(
     @Param('labelId') labelId: number,
@@ -59,8 +59,8 @@ export class LabelsController {
    * @returns The updated label.
    * @throws BadRequestException if the label with the given ID does not exist.
    * @throws BadRequestException if the color is not hexadecimal.
-  */
-   
+   */
+
   @Patch('/:labelId/edit')
   async updateLabel(
     @Param('labelId') labelId: number,

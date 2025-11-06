@@ -28,11 +28,9 @@ const EditDeleteLabelPopup: React.FC<EditDeleteLabelPopupProps> = ({
     }
   }, [selectedLabel]);
 
-  const handleDelete = async () => {
-  };
+  const handleDelete = async () => {};
 
-  const handleSave = async () => {
-  };
+  const handleSave = async () => {};
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-200 bg-opacity-95">

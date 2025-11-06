@@ -1,3 +1,11 @@
-// should include a taskId (number) and non-empty array of numbers called labelIds
+import { IsArray, IsNumber, ArrayNotEmpty } from 'class-validator';
+
 export class UpdateLabelsDTO {
+  @IsNumber()
+  taskId: number;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNumber({}, { each: true })
+  labelIds: number[];
 }

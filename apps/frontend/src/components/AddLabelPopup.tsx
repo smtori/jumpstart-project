@@ -38,7 +38,7 @@ export const AddLabelPopup: React.FC<AddLabelPopupProps> = ({
 
     try {
       const mockLabel: Label = {
-        id: Math.floor(Math.random() * 1000), 
+        id: Math.floor(Math.random() * 1000),
         name,
         color: toHex(colorValue),
         tasks: [],

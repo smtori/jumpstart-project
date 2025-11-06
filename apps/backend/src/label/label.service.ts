@@ -12,31 +12,66 @@ export class LabelsService {
     private labelRepository: Repository<Label>,
   ) {}
 
-  // Creates a new label with given CreateLabelDTO
+  // Creates a new label
   async createLabel(labelDto: CreateLabelDTO): Promise<Label> {
-    // should throw an exception if name field is null
-    // should throw an exception if color field is null
-    // should throw an exception if color field is not a valid hex color
+    if (!labelDto.name) {
+      throw new BadRequestException("The 'name' field cannot be null");
+    }
+
+    if (!labelDto.color) {
+      throw new BadRequestException("The 'color' field cannot be null");
+    }
+
+    if (!isHexColor(labelDto.color)) {
+      throw new BadRequestException(
+        "The 'color' field must be a valid hex color",
+      );
+    }
+
+    const newLabel = this.labelRepository.create(labelDto);
+    return this.labelRepository.save(newLabel);
   }
 
   // Retrieves all labels
   async getAllLabels(): Promise<Label[]> {
+    return this.labelRepository.find({ relations: ['tasks'] });
   }
 
-  // Deletes a label by its ID
   async deleteLabel(
     labelId: number,
   ): Promise<{ success: boolean; message: string }> {
-    // should throw an exception if label with given ID does not exist
+    const label = await this.labelRepository.findOne({
+      where: { id: labelId },
+    });
+    if (!label) {
+      throw new BadRequestException(`Label with ID ${labelId} does not exist`);
+    }
+
+    await this.labelRepository.remove(label);
+    return {
+      success: true,
+      message: `Label with ID ${labelId} deleted successfully`,
+    };
   }
 
-  // Updates a label by its ID with given Partial<CreateLabelDTO>
   async updateLabel(
     labelId: number,
     updateLabelDto: Partial<CreateLabelDTO>,
   ): Promise<Label> {
-    // should throw an exception if no fields are provided for update
-    // should throw an exception if label with given ID does not exist
-    // should throw an exception if color field (when given) is not a valid hex color
+    const label = await this.labelRepository.findOne({
+      where: { id: labelId },
+    });
+    if (!label) {
+      throw new BadRequestException(`Label with ID ${labelId} does not exist`);
+    }
+
+    if (updateLabelDto.color && !isHexColor(updateLabelDto.color)) {
+      throw new BadRequestException(
+        "The 'color' field must be a valid hex color",
+      );
+    }
+
+    Object.assign(label, updateLabelDto);
+    return this.labelRepository.save(label);
   }
 }
