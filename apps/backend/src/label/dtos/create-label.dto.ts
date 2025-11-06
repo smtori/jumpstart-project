@@ -1,4 +1,9 @@
-// should include a name (string) and hex color (string)
-export class CreateLabelDTO {
+import { IsString, IsHexColor } from 'class-validator';
 
+export class CreateLabelDTO {
+  @IsString()
+  name: string;
+
+  @IsHexColor()
+  color: string;
 }

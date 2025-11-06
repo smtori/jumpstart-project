@@ -1,3 +1,11 @@
-// should include an optional name (string) and optional hex color (string)
+import { IsString, IsHexColor, IsOptional } from 'class-validator';
+
 export class UpdateSingleLabelDTO {
+  @IsString()
+  @IsOptional()
+  name: string;
+
+  @IsHexColor()
+  @IsOptional()
+  color: string;
 }
